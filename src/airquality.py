@@ -11,7 +11,7 @@ class AirQuality:
 
     def import_data(self, days=1):
         self._dht_df = self._get_dht_data(days)
-        #self._sds_df = self._get_sds_data(days)
+        self._sds_df = self._get_sds_data(days)
 
     def get_particle_dataframe(self):
         return self._sds_df
@@ -22,7 +22,7 @@ class AirQuality:
     def _get_sds_data(self, days):
         data = []
         for day in range(days):
-            now = datetime.now()-timedelta(days=day) # current date - days
+            now = datetime.now()-timedelta(days=day)
             date = now.strftime("%Y-%m-%d") 
             logging.debug(f"Importing data for {date}")
 
@@ -32,7 +32,6 @@ class AirQuality:
                 sds_df = pd.read_csv(SDS_URL, sep=';')
                 sds_df.dropna(how='all', axis=1, inplace=True)
                 data.append(sds_df)
-                print("hello")
                 #TODO: INSERT INTO sds_data (timestamp, P1, P2) VALUES()
 
             except:
@@ -44,7 +43,7 @@ class AirQuality:
     def _get_dht_data(self, days=1):
         data =[]
         for day in range(days):
-            now = datetime.now()-timedelta(days=day) # current date - days
+            now = datetime.now()-timedelta(days=day)
             date = now.strftime("%Y-%m-%d") 
             logging.debug(f"Importing data for {date}")
 
@@ -61,7 +60,6 @@ class AirQuality:
         return pd.concat(data, axis=0)
 
 if __name__ == "__main__":
-    aq = AirQuality(3659, 3660)
-    aq.import_data(4)
-    #print(aq.get_particle_dataframe())
+    location = AirQuality(3659, 3660)
+    location.import_data(4)
 
