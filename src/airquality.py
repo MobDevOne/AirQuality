@@ -20,6 +20,7 @@ class AirQuality:
             date = now.strftime("%Y-%m-%d")
 
             sds_url = f'http://archive.sensor.community/{date}/{date}_sds011_sensor_{self.sds_id}.csv'
+
             dht_url = f'http://archive.sensor.community/{date}/{date}_dht22_sensor_{self.dht_id}.csv'
 
             logging.debug(f"Importing data for {date}")
