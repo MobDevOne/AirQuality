@@ -1,0 +1,5 @@
+[MASTER]
+disable=
+    C0116, # missing-function-docstring
+    C0114, #missing string
+    C0115,
