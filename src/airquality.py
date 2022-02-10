@@ -26,18 +26,18 @@ class AirQuality:
             logging.debug(f"Importing data for {date}")
 
             try:
-                sds_df = pd.read_csv(sds_url, sep=';')
-                sds_df.dropna(how='all', axis=1, inplace=True)
+                self._sds_df = pd.read_csv(sds_url, sep=';')
+                self._sds_df.dropna(how='all', axis=1, inplace=True)
 
                 # TODO: INSERT INTO sds_data (timestamp, P1, P2) VALUES()
             except:
                 logging.warning(f"could not read sds data for {date}")
 
             try:
-                dht_df = pd.read_csv(dht_url, sep=';')
-                dht_df.dropna(how='all', axis=1, inplace=True)
+                self._dht_df = pd.read_csv(dht_url, sep=';')
+                self._dht_df.dropna(how='all', axis=1, inplace=True)
 
-                # TODO: INSERT INTO sds_data (timestamp, P1, P2) VALUES()
+                # TODO: INSERT INTO dht_data (timestamp, P1, P2) VALUES()
             except:
                 logging.warning(f"could not read dht data for {date}")
 
@@ -62,7 +62,7 @@ class AirQuality:
                 data.append(dht_df)
 
             except:
-                logging.warning(f"could not read data for {date}")
+                logging.warning('could not read data for %(date)')
 
         return pd.concat(data, axis=0)
 

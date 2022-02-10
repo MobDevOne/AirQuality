@@ -3,3 +3,4 @@ disable=
     C0116, # missing-function-docstring
     C0114, 
     C0115,
+    W0702,
