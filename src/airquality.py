@@ -47,24 +47,6 @@ class AirQuality:
     def get_humidity_dataframe(self):
         return self._sds_df
 
-    def _try_load_dht_csv(self, days=1):
-        data = []
-        for day in range(days):
-            now = datetime.now()-timedelta(days=day)
-            date = now.strftime("%Y-%m-%d")
-            logging.debug(f"Importing data for {date}")
-
-            try:
-                dht_url = dht_url = f'http://archive.sensor.community/{date}/{date}_dht22_sensor_{self.dht_id}.csv'
-
-                dht_df = pd.read_csv(dht_url, sep=';')
-                dht_df.dropna(how='all', axis=1, inplace=True)
-                data.append(dht_df)
-
-            except:
-                logging.warning('could not read data for %(date)')
-
-        return pd.concat(data, axis=0)
 
 
 if __name__ == "__main__":
