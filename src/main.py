@@ -1,19 +1,21 @@
-#todo
 import sqlite3
-from sqlite3 import Error
+from sqlite3 import Cursor, Error
 
 def create_connection(db_file):
-    """ create a database connection to a SQLite database """
     connection = None
     try:
         connection = sqlite3.connect(db_file)
-        print(sqlite3.version)
+        return connection
+
     except Error as e:
         print(e)
-    finally:
-        if connection:
-            connection.close()
-
+  
+def create_table(connection, statement):
+    try:
+        cursor = connection.cursor()
+        cursor.execute(statement)
+    except Error as e:
+        print(e)
 
 if __name__ == '__main__':
     create_connection(r"pythonsqlite.db")
