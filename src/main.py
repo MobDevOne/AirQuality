@@ -18,4 +18,4 @@ def create_table(connection, statement):
         print(e)
 
 if __name__ == '__main__':
-    create_connection(r"pythonsqlite.db")
+    create_connection("pythonsqlite.db")
