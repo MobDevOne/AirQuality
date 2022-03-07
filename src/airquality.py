@@ -2,7 +2,7 @@ import logging
 from datetime import datetime, timedelta
 
 import pandas as pd
-
+import mariadb
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
@@ -13,6 +13,21 @@ class AirQuality:
         self.dht_id = humidity_sensor_id
         self._sds_df = None
         self._dht_df = None
+
+    def connect_database(self):
+        conn = None
+        try:
+            conn = mariadb.connect(
+                user = "example-user",
+                password = "my_cool_secret",
+                host = "127.0.0.1",
+                port = 3306,
+                database = "AirQuality"
+            )
+            return conn
+        except mariadb.Error as error:
+            print(f"Error connecting to MariaDB Platform: {error}")
+            return conn
 
     def import_data(self, days=1):
         for day in range(days):
@@ -28,15 +43,17 @@ class AirQuality:
             try:
                 self._sds_df = pd.read_csv(sds_url, sep=';')
                 self._sds_df.dropna(how='all', axis=1, inplace=True)
-
+                print(self._sds_df)
+                
                 # TODO: INSERT INTO sds_data (timestamp, P1, P2) VALUES()
+                
             except:
                 logging.warning(f"could not read sds data for {date}")
 
             try:
                 self._dht_df = pd.read_csv(dht_url, sep=';')
                 self._dht_df.dropna(how='all', axis=1, inplace=True)
-
+                print(self._dht_df)
                 # TODO: INSERT INTO dht_data (timestamp, P1, P2) VALUES()
             except:
                 logging.warning(f"could not read dht data for {date}")
@@ -51,4 +68,4 @@ class AirQuality:
 
 if __name__ == "__main__":
     location = AirQuality(3659, 3660)
-    location.import_data(4)
+    location.import_data(3)
