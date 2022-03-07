@@ -24,9 +24,11 @@ class AirQuality:
                 port = 3306,
                 database = "AirQuality"
             )
+            logging.info("Successfully conected to database.")
+
             return conn
         except mariadb.Error as error:
-            print(f"Error connecting to MariaDB Platform: {error}")
+            logging.error(f"Error connecting to MariaDB Platform: {error}")
             return conn
 
     def import_data(self, days=1):
