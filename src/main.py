@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 
 import sqlite3
 from sqlite3 import Error
-from numpy import append
 
 #um die csv dateien zu laden und abzuspeichern
 import pandas as pd
