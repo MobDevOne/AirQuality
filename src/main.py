@@ -16,6 +16,15 @@ def create_connection(db_file):
     except Error as e:
         print(e)
 
+def show_data(sensor):
+    connection = create_connection("airquality.db")
+    cursor = connection.cursor()
+
+    cursor.execute(f'''SELECT * FROM {sensor}''')
+    
+    for row in cursor.fetchall():
+        print(row)
+
 def import_data(period = 1):
     connection = create_connection("airquality.db")
 
@@ -34,7 +43,6 @@ def import_data(period = 1):
             sds_dataframe.dropna(how='all', axis=1, inplace=True)
 
             sds_dataframe.to_sql("sds_sensor", connection, if_exists="append")
-            print(sds_dataframe)
         except:
             print(f"could not read data for {formated_date}")
 
@@ -47,17 +55,8 @@ def import_data(period = 1):
         except:
             print(f"could not read data for {formated_date}")
 
-def show_data(sensor):
-    connection = create_connection("airquality.db")
-    cursor = connection.cursor()
-
-    cursor.execute(f'''SELECT * FROM {sensor}''')
-    
-    for row in cursor.fetchall():
-        print(row)
-
 if __name__ == '__main__':
-    import_data(5)
-    show_data("dht_sensor")
-    show_data("sds_sensor")
+    import_data(365)
+    #show_data("dht_sensor")
+    #show_data("sds_sensor")
     
