@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 
 import sqlite3
 from sqlite3 import Error
-from numpy import append
 
 import pandas as pd
 
