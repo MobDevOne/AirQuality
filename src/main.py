@@ -19,16 +19,16 @@ def create_connection(db_file):
 
 #daten werden für einen Zeitraum (period) importiert
 #wenn kein Argument übergeben wird, ist der default bei 1(Tag)
-def import_data(period = 1):
+def import_data(period:int):
     #erst legen wir uns eine Datenbank an und speichern die connection
     connection = create_connection("airquality.db")
 
     #die Schleife zählt die Anzahl der Tage hoch für den Zeitraum, erst 1, dann 2 usw.
-    for days in range(period):
+    for count_days in range(period):
         #vom heutigen Datum aus, wird dann die Anzahl an Tagen bei jedem Durchlauf abgezogen.
         #Beim ersten Durchlauf heute - 0 Tage, also heute,
         #beim zweiten heute - 1 Tag, also gestern
-        requested_date = datetime.now()-timedelta(days= days)
+        requested_date = datetime.now()-timedelta(days= count_days)
         #Das Datum muss in ein passendes Format gebracht werden
         formated_date = requested_date.strftime("%Y-%m-%d")
 
