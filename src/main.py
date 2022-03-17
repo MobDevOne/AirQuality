@@ -1,20 +1,23 @@
+import logging
+import time
 from datetime import datetime, timedelta
 
 import sqlite3
 from sqlite3 import Error
-from numpy import append
 
 import pandas as pd
 
+logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
 def create_connection(db_file):
     connection = None
     try:
         connection = sqlite3.connect(db_file)
+        logging.info(f"Successfully connected to {db_file}.")
         return connection
 
     except Error as e:
-        print(e)
+        logging.error(e)
 
 def show_data(sensor):
     connection = create_connection("airquality.db")
@@ -27,7 +30,7 @@ def show_data(sensor):
 
 def import_data(period = 1):
     connection = create_connection("airquality.db")
-
+    logging.debug(f"import stated at {time.strftime('%X')}")
     for days in range(period):
         requested_date = datetime.now()-timedelta(days= days)
 
@@ -43,8 +46,8 @@ def import_data(period = 1):
             sds_dataframe.dropna(how='all', axis=1, inplace=True)
 
             sds_dataframe.to_sql("sds_sensor", connection, if_exists="append")
-        except:
-            print(f"could not read data for {formated_date}")
+        except Exception as e:
+            logging.error(f"could not import data for {formated_date}: {e}")
 
         try:
             dht_dataframe = pd.read_csv(dht_url, sep=";")
@@ -52,11 +55,13 @@ def import_data(period = 1):
             dht_dataframe.dropna(how='all', axis=1, inplace=True)
 
             dht_dataframe.to_sql("dht_sensor", connection, if_exists="append")
-        except:
-            print(f"could not read data for {formated_date}")
+        except Exception as e:
+            logging.error(f"could not import data for {formated_date}: {e}")
+
+    logging.debug(f"import finished at {time.strftime('%X')}")
 
 if __name__ == '__main__':
-    import_data(365)
+    import_data(5)
     #show_data("dht_sensor")
     #show_data("sds_sensor")
     
