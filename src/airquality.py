@@ -2,6 +2,7 @@ import logging
 from datetime import datetime, timedelta
 
 import pandas as pd
+from pandas import errors
 import mariadb
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
@@ -32,6 +33,7 @@ class AirQuality:
             return conn
 
     def import_data(self, days=1):
+        connection = self.connect_database()
         for day in range(days):
             now = datetime.now()-timedelta(days=day)
             date = now.strftime("%Y-%m-%d")
@@ -45,20 +47,17 @@ class AirQuality:
             try:
                 self._sds_df = pd.read_csv(sds_url, sep=';')
                 self._sds_df.dropna(how='all', axis=1, inplace=True)
-                print(self._sds_df)
+                self._sds_df.to_sql("sds_sensor", connection, if_exists="append")
                 
-                # TODO: INSERT INTO sds_data (timestamp, P1, P2) VALUES()
-                
-            except:
-                logging.warning(f"could not read sds data for {date}")
+            except errors.ParserError as e:
+                logging.warning(f"could not read sds data for {date}: {e}")
 
             try:
                 self._dht_df = pd.read_csv(dht_url, sep=';')
                 self._dht_df.dropna(how='all', axis=1, inplace=True)
-                print(self._dht_df)
-                # TODO: INSERT INTO dht_data (timestamp, P1, P2) VALUES()
-            except:
-                logging.warning(f"could not read dht data for {date}")
+                self._sds_df.to_sql("dht_sensor", connection, if_exists="append")
+            except errors.ParserError as e:
+                logging.warning(f"could not read dht data for {date}: {e}")
 
     def get_particle_dataframe(self):
         return self._sds_df
