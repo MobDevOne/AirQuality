@@ -2,6 +2,7 @@ import logging
 from datetime import datetime, timedelta
 
 from urllib.error import URLError
+from numpy import uint
 import sqlalchemy
 
 import mariadb
@@ -29,12 +30,14 @@ class AirQuality:
             )
             logging.info("Successfully conected to database.")
         except mariadb.Error as mariadb_error:
-            logging.error(f"Error connecting to MariaDB Platform: {mariadb_error}")
+            logging.error(
+                f"Error connecting to MariaDB Platform: {mariadb_error}")
 
         return conn
 
-    def import_data(self, period=1):
-        engine = sqlalchemy.create_engine("mariadb+mariadbconnector://example-user:my_cool_secret@127.0.0.1:3306")
+    def import_data(self, period: uint = 1):
+        engine = sqlalchemy.create_engine(
+            "mariadb+mariadbconnector://example-user:my_cool_secret@127.0.0.1:3306")
 
         for days_counter in range(period):
             now = datetime.now()-timedelta(days=days_counter)
@@ -49,12 +52,13 @@ class AirQuality:
                 sds_df = pd.read_csv(sds_url, sep=';')
 
                 sds_df.dropna(how='all', axis=1, inplace=True)
-                
+                sds_df.to_sql("tabelle", engine, if_exists="append")
                 #sds_df.to_sql("sds_sensor", engine.raw_connection, if_exists="append")
             except DatabaseError as db_error:
                 logging.error(f"a database error occoured: {db_error}")
             except URLError as url_error:
-                logging.error(f"could not read sds data for {date}: {url_error}")
+                logging.error(
+                    f"could not read sds data for {date}: {url_error}")
             except Exception as ex:
                 logging.exception(f"something went wrong: {ex}")
 
@@ -67,9 +71,11 @@ class AirQuality:
             except DatabaseError as db_error:
                 logging.error(f"a database error occoured: {db_error}")
             except URLError as url_error:
-                logging.error(f"could not read dht data for {date}: {url_error}")
+                logging.error(
+                    f"could not read dht data for {date}: {url_error}")
             except Exception as ex:
                 logging.exception(f"something went wrong: {ex}")
+
 
 if __name__ == "__main__":
     location = AirQuality(3659, 3660)
