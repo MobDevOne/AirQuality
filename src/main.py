@@ -47,7 +47,6 @@ def import_data(period = 1):
 
         try:
             dht_dataframe = pd.read_csv(dht_url, sep=";")
-
             dht_dataframe.dropna(how='all', axis=1, inplace=True)
 
             dht_dataframe.to_sql("dht_sensor", connection, if_exists="append")
