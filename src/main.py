@@ -1,4 +1,3 @@
-
 from datetime import datetime, timedelta
 
 import sqlite3
@@ -16,15 +15,21 @@ def create_connection(db_file):
     except Error as e:
         print(e)
 
-def import_data(period:int):
+def show_data(sensor):
+    connection = create_connection("airquality.db")
+    cursor = connection.cursor()
+
+    cursor.execute(f'''SELECT * FROM {sensor}''')
     
+    for row in cursor.fetchall():
+        print(row)
+
+def import_data(period = 1):
     connection = create_connection("airquality.db")
 
-    
-    for count_days in range(period):
-        
-        requested_date = datetime.now()-timedelta(days= count_days)
-        
+    for days in range(period):
+        requested_date = datetime.now()-timedelta(days= days)
+
         formated_date = requested_date.strftime("%Y-%m-%d")
 
         sds_url = f'http://archive.sensor.community/{formated_date}/{formated_date}_sds011_sensor_3659.csv'
@@ -32,13 +37,11 @@ def import_data(period:int):
         dht_url = f'http://archive.sensor.community/{formated_date}/{formated_date}_dht22_sensor_3660.csv'
 
         try:
-
             sds_dataframe = pd.read_csv(sds_url, sep=";")
 
             sds_dataframe.dropna(how='all', axis=1, inplace=True)
 
             sds_dataframe.to_sql("sds_sensor", connection, if_exists="append")
-            print(sds_dataframe)
         except:
             print(f"could not read data for {formated_date}")
 
@@ -50,17 +53,8 @@ def import_data(period:int):
         except:
             print(f"could not read data for {formated_date}")
 
-def show_data(sensor):
-    connection = create_connection("airquality.db")
-    cursor = connection.cursor()
-
-    cursor.execute(f'''SELECT * FROM {sensor}''')
-    
-    for row in cursor.fetchall():
-        print(row)
-
 if __name__ == '__main__':
-    import_data(5)
-    show_data("dht_sensor")
-    show_data("sds_sensor")
+    import_data(365)
+    #show_data("dht_sensor")
+    #show_data("sds_sensor")
     
