@@ -19,11 +19,16 @@ def show_data():
     connection = create_connection("airquality.db")
     cursor = connection.cursor()
 
-    cursor.execute('SELECT  MAX(Temperatur) AS "Max Temp",'
-                            'MIN(Temperatur) AS "Min Temp",' 
-                            'Avg(Temperatur) AS "Avg Temp"' 
-                    'FROM dht_sensor' 
-                    f'WHERE Timestamp = "2022-03-14"')
+    cursor.execute('SELECT  MAX(temperature) AS "Max Temp", MIN(temperature) AS "Min Temp", Avg(temperature) AS "Avg Temp" FROM dht_sensor WHERE timestamp like "2022-03-10T*"')
+    
+    for row in cursor.fetchall():
+        print(row)
+
+def show_day():
+    connection = create_connection("airquality.db")
+    cursor = connection.cursor()
+
+    cursor.execute('SELECT timestamp FROM dht_sensor')
     
     for row in cursor.fetchall():
         print(row)
@@ -58,6 +63,7 @@ def import_data(period = 1):
             print(f"could not read data for {formated_date}")
 
 if __name__ == '__main__':
-    import_data(10) 
+    import_data(15) 
     show_data()
+    #show_day()
     
