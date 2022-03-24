@@ -1,3 +1,4 @@
+from calendar import month
 from datetime import datetime, timedelta
 
 import sqlite3
@@ -24,14 +25,27 @@ def show_data():
     for row in cursor.fetchall():
         print(row)
 
-def show_day():
+def show_temperature(year, month, day):
     connection = create_connection("airquality.db")
     cursor = connection.cursor()
-
-    cursor.execute('SELECT timestamp FROM dht_sensor')
+    try:
+        cursor.execute(f'SELECT MAX(temperature), MIN(temperature), ROUND(Avg(temperature),0) FROM dht_sensor WHERE timestamp between "{year}-{month}-{day}T00:00:00" AND "{year}-{month}-{day}T23:59:00"')
     
-    for row in cursor.fetchall():
-        print(row)
+        for row in cursor.fetchall():
+            print(row)
+    except Error as err:
+        print(err)
+
+def show_particle(year, month, day):
+    connection = create_connection("airquality.db")
+    cursor = connection.cursor()
+    try:
+        cursor.execute(f'SELECT MAX(P1), MIN(P1), ROUND(Avg(P1),0) FROM sds_sensor WHERE timestamp between "{year}-{month}-{day}T00:00:00" AND "{year}-{month}-{day}T23:59:00"')
+    
+        for row in cursor.fetchall():
+            print(row)
+    except Error as err:
+        print(err)
 
 def import_data(period = 1):
     connection = create_connection("airquality.db")
@@ -63,7 +77,7 @@ def import_data(period = 1):
             print(f"could not read data for {formated_date}")
 
 if __name__ == '__main__':
-    import_data(15) 
-    show_data()
-    #show_day()
+    #import_data(365) 
+    show_temperature("2021", "03", "25")
+    show_particle("2021", "03", "25")
     
