@@ -15,11 +15,15 @@ def create_connection(db_file):
     except Error as e:
         print(e)
 
-def show_data(sensor):
+def show_data():
     connection = create_connection("airquality.db")
     cursor = connection.cursor()
 
-    cursor.execute(f'SELECT * FROM {sensor}')
+    cursor.execute('SELECT  MAX(Temperatur) AS "Max Temp",'
+                            'MIN(Temperatur) AS "Min Temp",' 
+                            'Avg(Temperatur) AS "Avg Temp"' 
+                    'FROM dht_sensor' 
+                    f'WHERE Timestamp = "2022-03-14"')
     
     for row in cursor.fetchall():
         print(row)
@@ -54,7 +58,6 @@ def import_data(period = 1):
             print(f"could not read data for {formated_date}")
 
 if __name__ == '__main__':
-    import_data(365)
-    #show_data("dht_sensor")
-    #show_data("sds_sensor")
+    import_data(10) 
+    show_data()
     
