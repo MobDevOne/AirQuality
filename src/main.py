@@ -19,7 +19,7 @@ def show_data(sensor):
     connection = create_connection("airquality.db")
     cursor = connection.cursor()
 
-    cursor.execute(f'''SELECT * FROM {sensor}''')
+    cursor.execute(f'SELECT * FROM {sensor}')
     
     for row in cursor.fetchall():
         print(row)
