@@ -77,6 +77,11 @@ def import_data(period = 1):
 
 if __name__ == '__main__':
    #import_data(400) 
-    show_temperature("2021", "03", "14")
-    show_particle("2021", "03", "14")
+    year = str(input("Geben Sie das Jahr ein: "))
+    month = str(input("Geben Sie den Monat ein: "))
+    day = str(input("Geben Sie den Tag ein: "))
+
+    show_temperature(year, month, day)
+    show_particle(year, month, day)
+
     
