@@ -15,14 +15,36 @@ def create_connection(db_file):
     except Error as e:
         print(e)
 
-def show_data(sensor):
+def show_data():
     connection = create_connection("airquality.db")
     cursor = connection.cursor()
 
-    cursor.execute(f'''SELECT * FROM {sensor}''')
+    cursor.execute('SELECT  MAX(temperature) AS "Max Temp", MIN(temperature) AS "Min Temp", Avg(temperature) AS "Avg Temp" FROM dht_sensor WHERE timestamp like "2022-03-10T*"')
     
     for row in cursor.fetchall():
         print(row)
+
+def show_temperature(year, month, day):
+    connection = create_connection("airquality.db")
+    cursor = connection.cursor()
+    try:
+        cursor.execute(f'SELECT MAX(temperature), MIN(temperature), ROUND(Avg(temperature),1) FROM dht_sensor WHERE timestamp between "{year}-{month}-{day}T00:00:00" AND "{year}-{month}-{day}T23:59:59"')
+    
+        for row in cursor.fetchall():
+            print(row)
+    except Error as err:
+        print(err)
+
+def show_particle(year, month, day):
+    connection = create_connection("airquality.db")
+    cursor = connection.cursor()
+    try:
+        cursor.execute(f'SELECT MAX(P1), MIN(P1), ROUND(Avg(P1),0) FROM sds_sensor WHERE timestamp between "{year}-{month}-{day}T00:00:00" AND "{year}-{month}-{day}T23:59:59"')
+    
+        for row in cursor.fetchall():
+            print(row)
+    except Error as err:
+        print(err)
 
 def import_data(period = 1):
     connection = create_connection("airquality.db")
@@ -47,7 +69,6 @@ def import_data(period = 1):
 
         try:
             dht_dataframe = pd.read_csv(dht_url, sep=";")
-
             dht_dataframe.dropna(how='all', axis=1, inplace=True)
 
             dht_dataframe.to_sql("dht_sensor", connection, if_exists="append")
@@ -55,7 +76,7 @@ def import_data(period = 1):
             print(f"could not read data for {formated_date}")
 
 if __name__ == '__main__':
-    import_data(365)
-    #show_data("dht_sensor")
-    #show_data("sds_sensor")
+   #import_data(400) 
+    show_temperature("2021", "03", "14")
+    show_particle("2021", "03", "14")
     
