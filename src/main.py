@@ -28,7 +28,7 @@ def show_temperature(year, month, day):
     connection = create_connection("airquality.db")
     cursor = connection.cursor()
     try:
-        cursor.execute(f'SELECT MAX(temperature), MIN(temperature), ROUND(Avg(temperature),1) FROM dht_sensor WHERE timestamp between "{year}-{month}-{day}T00:00:00" AND "{year}-{month}-{day}T23:59:59"')
+        cursor.execute(f'SELECT MAX(temperature) as "maximal temperature", MIN(temperature) as "minimal temperature", ROUND(Avg(temperature),1) as "average temperature" FROM dht_sensor WHERE timestamp between "{year}-{month}-{day}T00:00:00" AND "{year}-{month}-{day}T23:59:59"')
     
         for row in cursor.fetchall():
             print(row)
@@ -39,8 +39,8 @@ def show_particle(year, month, day):
     connection = create_connection("airquality.db")
     cursor = connection.cursor()
     try:
-        cursor.execute(f'SELECT MAX(P1), MIN(P1), ROUND(Avg(P1),0) FROM sds_sensor WHERE timestamp between "{year}-{month}-{day}T00:00:00" AND "{year}-{month}-{day}T23:59:59"')
-    
+        cursor.execute(f'SELECT MAX(P1) as "maximal particle size", MIN(P1) as "minimal particle size", ROUND(Avg(P1),0) as "average particle size" FROM sds_sensor WHERE timestamp between "{year}-{month}-{day}T00:00:00" AND "{year}-{month}-{day}T23:59:59"')
+        
         for row in cursor.fetchall():
             print(row)
     except Error as err:
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     year = str(input("Geben Sie das Jahr ein: "))
     month = str(input("Geben Sie den Monat ein: "))
     day = str(input("Geben Sie den Tag ein: "))
-
+    
     show_temperature(year, month, day)
     show_particle(year, month, day)
 
