@@ -28,7 +28,7 @@ def show_temperature(year, month, day):
     connection = create_connection("airquality.db")
     cursor = connection.cursor()
     try:
-        cursor.execute(f'SELECT MAX(temperature), MIN(temperature), ROUND(Avg(temperature),0) FROM dht_sensor WHERE timestamp between "{year}-{month}-{day}T00:00:00" AND "{year}-{month}-{day}T23:59:00"')
+        cursor.execute(f'SELECT MAX(temperature), MIN(temperature), ROUND(Avg(temperature),1) FROM dht_sensor WHERE timestamp between "{year}-{month}-{day}T00:00:00" AND "{year}-{month}-{day}T23:59:59"')
     
         for row in cursor.fetchall():
             print(row)
@@ -39,7 +39,7 @@ def show_particle(year, month, day):
     connection = create_connection("airquality.db")
     cursor = connection.cursor()
     try:
-        cursor.execute(f'SELECT MAX(P1), MIN(P1), ROUND(Avg(P1),0) FROM sds_sensor WHERE timestamp between "{year}-{month}-{day}T00:00:00" AND "{year}-{month}-{day}T23:59:00"')
+        cursor.execute(f'SELECT MAX(P1), MIN(P1), ROUND(Avg(P1),0) FROM sds_sensor WHERE timestamp between "{year}-{month}-{day}T00:00:00" AND "{year}-{month}-{day}T23:59:59"')
     
         for row in cursor.fetchall():
             print(row)
@@ -76,7 +76,7 @@ def import_data(period = 1):
             print(f"could not read data for {formated_date}")
 
 if __name__ == '__main__':
-    #import_data(365) 
-    show_temperature("2021", "03", "25")
-    show_particle("2021", "03", "25")
+   #import_data(400) 
+    show_temperature("2021", "03", "14")
+    show_particle("2021", "03", "14")
     
