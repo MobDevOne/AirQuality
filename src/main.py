@@ -85,7 +85,6 @@ def get_particle(year, month, day):
         logger.error(err)
 
         return None
-    except Exception as 
 
 def import_data(date, connection):
     sds_url = f'http://archive.sensor.community/{date}/{date}_sds011_sensor_3659.csv'
