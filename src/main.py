@@ -15,15 +15,6 @@ def create_connection(db_file):
     except Error as e:
         print(e)
 
-def show_data():
-    connection = create_connection("airquality.db")
-    cursor = connection.cursor()
-
-    cursor.execute('SELECT  MAX(temperature) AS "Max Temp", MIN(temperature) AS "Min Temp", Avg(temperature) AS "Avg Temp" FROM dht_sensor WHERE timestamp like "2022-03-10T*"')
-    
-    for row in cursor.fetchall():
-        print(row)
-
 def show_temperature(year, month, day):
     connection = create_connection("airquality.db")
     cursor = connection.cursor()
