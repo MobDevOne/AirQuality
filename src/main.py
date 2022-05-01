@@ -170,12 +170,11 @@ def auto_load():
     else:
             print("everything up to date.\n")
 
-if __name__ == '__main__':
-    auto_load()
-    
-    year = str(input("Geben Sie das Jahr ein: "))
-    month = str(input("Geben Sie den Monat ein: "))
-    day = str(input("Geben Sie den Tag ein: "))
+def read_date():
+    print("please enter...")
+    year = str(input("+ year: "))
+    month = str(input("+ month: "))
+    day = str(input("+ day: "))
 
     #formating months and days if necessary 
     if len(month) == 1:
@@ -183,9 +182,12 @@ if __name__ == '__main__':
     if len(day) == 1:
         day = "0" + day
 
-    request_date = f"{year}-{month}-{day}"
+    return f"{year}-{month}-{day}"
 
+if __name__ == '__main__':
+    auto_load()
     
+    request_date = read_date()
     
     print("1 für Temperatur | 2 für Luftfeuchtigkeit | 3 für für Feinstaub")
     print("Welcher Wertetyp? ")
