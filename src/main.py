@@ -138,7 +138,7 @@ def auto_load():
         connection = create_connection("airquality.db")
 
         for amount_days in range(period):
-            requested_date = datetime.now()-timedelta(days=amount_days)
+            requested_date = datetime.now() - timedelta(days=amount_days)
             formated_date = requested_date.strftime("%Y-%m-%d")
 
             successfull_loaded_date = import_data(formated_date, connection)
@@ -154,7 +154,7 @@ def auto_load():
         if(len(loaded_dates) > 0):
             print(f"successfully loaded {len(loaded_dates)} days.")
 
-        # save latest date and failed dates to json file
+        #save latest date and failed dates to json file
         config.update({"latest": loaded_dates[0]})
 
         temp = list(dict.fromkeys(config["not_found"] + failed_dates))
@@ -188,38 +188,40 @@ if __name__ == '__main__':
     auto_load()
     
     request_date = read_date()
-    
-    print("1 für Temperatur | 2 für Luftfeuchtigkeit | 3 für für Feinstaub")
-    print("Welcher Wertetyp? ")
-    mode = int(input())
 
-    if (mode == 1):
-        temp_data = get_temperature(request_date)
-        print(f'Temperature values for {request_date}:')
-        print(f"+ maximal temperature:\t{temp_data['max']} °C")
-        print(f"+ minimal temperature:\t{temp_data['min']} °C")
-        print(f"+ average temperature:\t{temp_data['avg']} °C")
-    
-    elif (mode == 2):    
-        humid_data = get_humidity(request_date)
-        print(f'Humidity values for {request_date}:')
-        print(f"+ maximal amount:\t{humid_data['max']} %")
-        print(f"+ minimal amount:\t{humid_data['min']} %")
-        print(f"+ average amount:\t{humid_data['avg']} %")
-    
-    elif (mode == 3):
-        part1_data = get_particle1(request_date)
-        print(f'Particle (P1) values for {request_date}:')
-        print(f"+ maximal amount:\t{part1_data['max']} nm")
-        print(f"+ minimal amount:\t{part1_data['min']} nm")
-        print(f"+ average amount:\t{part1_data['avg']} nm\n")
+    while(True):
+        print("\n1 temperature | 2 humidity | 3 particles | 0 exit")
+        mode = int(input("enter number to get values for: "))
+
+        if (mode == 1):
+            temp_data = get_temperature(request_date)
+            print(f'Temperature values for {request_date}:')
+            print(f"+ maximal temperature:\t{temp_data['max']} °C")
+            print(f"+ minimal temperature:\t{temp_data['min']} °C")
+            print(f"+ average temperature:\t{temp_data['avg']} °C")
         
-        part2_data = get_particle2(request_date)
-        print(f'Particle (P2) values for {request_date}:')
-        print(f"+ maximal amount:\t{part2_data['max']} nm")
-        print(f"+ minimal amount:\t{part2_data['min']} nm")
-        print(f"+ average amount:\t{part2_data['avg']} nm")
-    
-    else:
-        print("Keine gültige Eingabe.")
-    
+        elif (mode == 2):    
+            humid_data = get_humidity(request_date)
+            print(f'Humidity values for {request_date}:')
+            print(f"+ maximal amount:\t{humid_data['max']} %")
+            print(f"+ minimal amount:\t{humid_data['min']} %")
+            print(f"+ average amount:\t{humid_data['avg']} %")
+        
+        elif (mode == 3):
+            part1_data = get_particle1(request_date)
+            print(f'Particle (P1) values for {request_date}:')
+            print(f"+ maximal amount:\t{part1_data['max']} nm")
+            print(f"+ minimal amount:\t{part1_data['min']} nm")
+            print(f"+ average amount:\t{part1_data['avg']} nm\n")
+            
+            part2_data = get_particle2(request_date)
+            print(f'Particle (P2) values for {request_date}:')
+            print(f"+ maximal amount:\t{part2_data['max']} nm")
+            print(f"+ minimal amount:\t{part2_data['min']} nm")
+            print(f"+ average amount:\t{part2_data['avg']} nm")
+        
+        elif (mode == 0):
+            break
+        else:
+            print("not a valid input.")
+        
