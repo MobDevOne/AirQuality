@@ -14,6 +14,7 @@ def create_connection(db_file):
     connection = None
     try:
         connection = sqlite3.connect(db_file)
+
         return connection
 
     except Error as e:
@@ -29,7 +30,9 @@ def get_temperature(date):
             f'SELECT MAX(temperature) as "maximal temperature", MIN(temperature) as "minimal temperature", ROUND(Avg(temperature),1) as "average temperature" FROM dht_sensor WHERE timestamp between ? AND ?', dates)
 
         temperature_values = cursor.fetchone()
+
         return {'max': temperature_values[0], 'min': temperature_values[1], 'avg': temperature_values[2]}
+
     except Error as err:
         print(err)
 
@@ -43,7 +46,9 @@ def get_humidity(date):
             f'SELECT MAX(humidity) as "maximal humidity", MIN(humidity) as "minimal humidity", ROUND(Avg(humidity),1) as "average humidity" FROM dht_sensor WHERE timestamp between ? AND ?', dates)
 
         humidity_values = cursor.fetchone()
+
         return {'max': humidity_values[0], 'min': humidity_values[1], 'avg': humidity_values[2]}
+
     except Error as err:
         print(err)
 
@@ -57,7 +62,9 @@ def get_particle1(date):
             f'SELECT MAX(P1) as "maximal particle size", MIN(P1) as "minimal particle size", ROUND(Avg(P1),0) as "average particle size" FROM sds_sensor WHERE timestamp between ? AND ?', dates)
 
         particle_values = cursor.fetchone()
+
         return {'max': particle_values[0], 'min': particle_values[1], 'avg': particle_values[2]}
+
     except Error as err:
         print(err)
 
@@ -71,7 +78,9 @@ def get_particle2(date):
             f'SELECT MAX(P2) as "maximal particle size", MIN(P2) as "minimal particle size", ROUND(Avg(P2),0) as "average particle size" FROM sds_sensor WHERE timestamp between ? AND ?', dates)
 
         particle_values = cursor.fetchone()
+
         return {'max': particle_values[0], 'min': particle_values[1], 'avg': particle_values[2]}
+
     except Error as err:
         print(err)
 
@@ -148,6 +157,7 @@ def auto_load():
 
                 if successfull_loaded_date in config["not_found"]:
                     config["not_found"].remove(successfull_loaded_date)
+
             else:
                 failed_dates.append(formated_date)
 
@@ -167,6 +177,7 @@ def auto_load():
 
         except Exception as ex:
             print(f"failed to save latest day: {ex}")
+
     else:
             print("everything up to date.\n")
 
@@ -179,6 +190,7 @@ def read_date():
     #formating months and days if necessary 
     if len(month) == 1:
         month = "0" + month
+
     if len(day) == 1:
         day = "0" + day
 
@@ -192,7 +204,7 @@ if __name__ == '__main__':
     while(True):
         print("\n1 temperature | 2 humidity | 3 particles | 0 exit")
         mode = int(input("enter number to get values for: "))
-
+        print("")
         if (mode == 1):
             temp_data = get_temperature(request_date)
             print(f'Temperature values for {request_date}:')
@@ -222,6 +234,7 @@ if __name__ == '__main__':
         
         elif (mode == 0):
             break
+        
         else:
             print("not a valid input.")
         
