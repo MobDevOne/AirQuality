@@ -120,8 +120,7 @@ def auto_load():
     try:
         with open("config.json", "r") as config_file:
             config = json.load(config_file)
-            delta = datetime.now() - \
-                datetime.strptime(config["latest"], "%Y-%m-%d")
+            delta = datetime.now() - datetime.strptime(config["latest"], "%Y-%m-%d")
             period = int(delta.days)
 
     except json.JSONDecodeError as decodeError:
