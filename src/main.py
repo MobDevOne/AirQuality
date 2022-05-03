@@ -27,7 +27,7 @@ def get_temperature(date):
     try:
         dates = (f"{date}T00:00:00", f"{date}T23:59:59")
         cursor.execute(
-            f'SELECT MAX(temperature) as "maximal temperature", MIN(temperature) as "minimal temperature", ROUND(Avg(temperature),1) as "average temperature" FROM dht_sensor WHERE timestamp between ? AND ?', dates)
+            'SELECT MAX(temperature) as "maximal temperature", MIN(temperature) as "minimal temperature", ROUND(Avg(temperature),1) as "average temperature" FROM dht_sensor WHERE timestamp between ? AND ?', dates)
 
         temperature_values = cursor.fetchone()
 
@@ -43,7 +43,7 @@ def get_humidity(date):
     try:
         dates = (f"{date}T00:00:00", f"{date}T23:59:59")
         cursor.execute(
-            f'SELECT MAX(humidity) as "maximal humidity", MIN(humidity) as "minimal humidity", ROUND(Avg(humidity),1) as "average humidity" FROM dht_sensor WHERE timestamp between ? AND ?', dates)
+            'SELECT MAX(humidity) as "maximal humidity", MIN(humidity) as "minimal humidity", ROUND(Avg(humidity),1) as "average humidity" FROM dht_sensor WHERE timestamp between ? AND ?', dates)
 
         humidity_values = cursor.fetchone()
 
@@ -59,7 +59,7 @@ def get_particle1(date):
     try:
         dates = (f"{date}T00:00:00", f"{date}T23:59:59")
         cursor.execute(
-            f'SELECT MAX(P1) as "maximal particle size", MIN(P1) as "minimal particle size", ROUND(Avg(P1),0) as "average particle size" FROM sds_sensor WHERE timestamp between ? AND ?', dates)
+            'SELECT MAX(P1) as "maximal particle size", MIN(P1) as "minimal particle size", ROUND(Avg(P1),0) as "average particle size" FROM sds_sensor WHERE timestamp between ? AND ?', dates)
 
         particle_values = cursor.fetchone()
 
@@ -75,7 +75,7 @@ def get_particle2(date):
     try:
         dates = (f"{date}T00:00:00", f"{date}T23:59:59")
         cursor.execute(
-            f'SELECT MAX(P2) as "maximal particle size", MIN(P2) as "minimal particle size", ROUND(Avg(P2),0) as "average particle size" FROM sds_sensor WHERE timestamp between ? AND ?', dates)
+            'SELECT MAX(P2) as "maximal particle size", MIN(P2) as "minimal particle size", ROUND(Avg(P2),0) as "average particle size" FROM sds_sensor WHERE timestamp between ? AND ?', dates)
 
         particle_values = cursor.fetchone()
 
