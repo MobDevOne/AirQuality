@@ -7,8 +7,6 @@ from urllib.error import URLError
 import pandas as pd
 import json
 
-from requests import request
-
 
 def create_connection(db_file):
     connection = None
