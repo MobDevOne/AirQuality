@@ -89,10 +89,6 @@ Imports air quality data for the specified `date` and inserts it into the databa
 
 The script uses a configuration file named `config.json` to track the latest data updates and failed attempts. The configuration file structure includes fields like `latest` (latest data date) and `not_found` (dates with failed data fetch attempts).
 
-## Contributing
-
-Contributions to this project are welcome. If you'd like to contribute, follow the guidelines mentioned in the [Contributing](#contributing) section of this README.
-
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
