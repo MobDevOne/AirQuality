@@ -1,7 +1,3 @@
-Certainly! Here's an extensive documentation for the provided code:
-
----
-
 # Air Quality Data Processing
 
 The "Air Quality Data Processing" project focuses on collecting, processing, and analyzing air quality data. This script interacts with air quality sensors, gathers data related to temperature, humidity, and particle size, and provides users with valuable insights into the air quality trends.
