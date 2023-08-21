@@ -40,7 +40,7 @@ The "Air Quality Data Processing" project focuses on collecting, processing, and
 
 2. Navigate to the project directory:
    ```bash
-   cd air-quality-data-processing
+   cd AirQuality
    ```
 
 3. Install the required Python packages:
