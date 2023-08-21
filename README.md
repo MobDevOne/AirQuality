@@ -33,7 +33,7 @@ The **Air Quality Data Processing** project involves collecting air quality data
 
 4. Run the main program:
    ```
-   python air_quality_processing.py
+   python3 air_quality_processing.py
    ```
 
 5. Follow the on-screen instructions to retrieve air quality data for a specific date.
