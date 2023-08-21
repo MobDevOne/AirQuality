@@ -17,7 +17,6 @@ The "Air Quality Data Processing" project focuses on collecting, processing, and
   - [import_data(date, connection)](#import_datadate-connection)
 - [Configuration](#configuration)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Prerequisites
 
