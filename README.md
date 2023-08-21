@@ -23,7 +23,7 @@ The **Air Quality Data Processing** project involves collecting air quality data
 
 2. Navigate to the project directory:
    ```
-   cd air-quality-data-processing
+   cd AirQuality
    ```
 
 3. Install the required Python packages:
